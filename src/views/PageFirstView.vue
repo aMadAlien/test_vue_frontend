@@ -3,7 +3,7 @@
       <h2 class="mb-3">Page 1</h2>
       <h3 class="mb-3 fs-5">Last convertations</h3>
       <b-table v-if="totalRows" dark striped hover :items="pagedItems"></b-table>
-      <p v-else-if="noData">Seems no data found...</p>
+      <p v-else-if="!items.length">Seems no data found...</p>
       <b-spinner v-else variant="primary" label="Spinning"></b-spinner>
 
       <b-pagination
@@ -17,34 +17,25 @@
 </template>
 
 <script  lang="ts">
+import { store } from '../storage'
+import type { Convertations } from '../interfaces/pages'
+
 export default {
   data() {
-      return {
-          perPage: 5,
-          currentPage: 1,
-          items: [] as any[],
-          noData: false,
-      }
+    return {
+      currentPage: 1,
+    }
   },
   beforeMount() {
-      this.getAboutData()
-  },
-  methods: {
-      getAboutData(): void {
-          fetch('http://127.0.0.1:8000/api/first')
-              .then(res => res.status !== 200 ? (this.noData = true) : res.json())
-              .then(data => this.items = data)
-      }
+    if (!this.items.length) {
+      store.getters.firstPageData
+    }
   },
   computed: {
-      totalRows(): number {
-          return this.items.length
-      },
-      pagedItems(): any[] {
-          const startIndex = (this.currentPage - 1) * this.perPage;
-          const endIndex = startIndex + this.perPage;
-          return this.items.slice(startIndex, endIndex);
-      },
+    items():Convertations[] { return store.state.firstPageData },
+    perPage():number { return store.state.perPage },
+    totalRows():number { return store.getters.totalRows(this.items) },
+    pagedItems():Convertations[] { return store.getters.itemsPerPage(this.currentPage, store.state.firstPageData) },
   }
 }
 </script>

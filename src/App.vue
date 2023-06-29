@@ -8,8 +8,8 @@ import { RouterLink, RouterView } from 'vue-router'
     <img alt="Vue logo" class="logo" src="@/assets/logo.svg" width="125" height="125" />
       <nav>
         <RouterLink to="/">Page 1</RouterLink>
-        <RouterLink to="/about">Page 2</RouterLink>
-        <RouterLink to="/data">Page 3</RouterLink>
+        <RouterLink to="/secondpage">Page 2</RouterLink>
+        <RouterLink to="/thirdpage">Page 3</RouterLink>
       </nav>
     </di>
   </header>
