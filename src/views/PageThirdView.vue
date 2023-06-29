@@ -1,10 +1,6 @@
 <template>
     <main class="my-5">
-        <h2 class="mb-3">Page 3</h2>
-        <h3 class="mb-3 fs-6">Paginated in frontend</h3>
-        <b-table v-if="totalRows" dark striped hover :items="pagedItems"></b-table>
-        <p v-else-if="!items.length">Seems no data found...</p>
-        <b-spinner v-else variant="primary" label="Spinning"></b-spinner>
+        <PageContent :title="'Page 3'" :subtitle="'Paginated in frontend'" :items="pagedItems" :totalRows="totalRows" />
 
         <b-pagination
             v-if="totalRows"
@@ -19,6 +15,7 @@
 <script  lang="ts">
 import { store } from '../storage'
 import type { Currencies } from '../interfaces/pages'
+import PageContent from '../components/PageContent.vue'
 
 export default {
     data() {
@@ -36,6 +33,7 @@ export default {
         perPage():number { return store.state.perPage },
         totalRows():number { return store.getters.totalRows(this.items) },
         pagedItems():Currencies[] { return store.getters.itemsPerPage(this.currentPage, store.state.thirdPageData) },
-    }
+    },
+    components: { PageContent }
 }
 </script>

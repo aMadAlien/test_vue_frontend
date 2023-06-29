@@ -1,10 +1,6 @@
 <template>
   <main class="my-5">
-      <h2 class="mb-3">Page 1</h2>
-      <h3 class="mb-3 fs-5">Last convertations</h3>
-      <b-table v-if="totalRows" dark striped hover :items="pagedItems"></b-table>
-      <p v-else-if="!items.length">Seems no data found...</p>
-      <b-spinner v-else variant="primary" label="Spinning"></b-spinner>
+    <PageContent :title="'Page 1'" :subtitle="'Last convertations'" :items="pagedItems" :totalRows="totalRows" />
 
       <b-pagination
           v-if="totalRows"
@@ -19,6 +15,7 @@
 <script  lang="ts">
 import { store } from '../storage'
 import type { Convertations } from '../interfaces/pages'
+import PageContent from '../components/PageContent.vue'
 
 export default {
   data() {
@@ -36,6 +33,7 @@ export default {
     perPage():number { return store.state.perPage },
     totalRows():number { return store.getters.totalRows(this.items) },
     pagedItems():Convertations[] { return store.getters.itemsPerPage(this.currentPage, store.state.firstPageData) },
-  }
+  },
+  components: { PageContent }
 }
 </script>
